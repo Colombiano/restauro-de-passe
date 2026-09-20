@@ -21,14 +21,17 @@ Um baralho educativo, de código aberto e escrito em **LaTeX/TikZ**, para crian�
 
 ## Quer compilar você mesmo?
 
-Você precisa de uma distribuição LaTeX com TikZ (recomendamos [TeX Live](https://www.tug.org/texlive/) — no Debian/Ubuntu: `sudo apt install texlive-latex-recommended texlive-pictures texlive-lang-portuguese`).
+O passo a passo completo para **Windows (MiKTeX)** e **macOS (MacTeX)** — com
+instalação, geração dos PDFs e impressão — está em
+[docs/INSTALAR.md](docs/INSTALAR.md). Se você já tem uma distribuição LaTeX com
+TikZ, o resumo é:
 
 ```bash
 cd cartas && pdflatex cartas.tex && pdflatex cartas.tex   # 2x para os versos
 cd ../regras && pdflatex regras.tex && pdflatex regras.tex
 ```
 
-Ou use o script: `./ferramentas/compilar.sh`
+Ou use o script (Linux/macOS): `./ferramentas/compilar.sh`
 
 ## Como se joga (resumo)
 
@@ -48,6 +51,7 @@ O manual completo está em [`regras/regras.tex`](regras/regras.tex) (fonte) e no
 │   └── preambulo_cartas.tex # Motor visual das cartas (estilo, pictogramas)
 ├── regras/regras.tex        # Manual de regras ilustrado
 ├── docs/
+│   ├── INSTALAR.md          # Guia passo a passo para Windows e macOS
 │   ├── HISTORIA.md          # Dossiê do monumento com fontes verificadas
 │   ├── METODOLOGIA.md       # Como o jogo foi pensado (educação patrimonial)
 │   └── imagens/             # Capturas de tela para documentação
