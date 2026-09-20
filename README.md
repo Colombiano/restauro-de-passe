@@ -72,6 +72,39 @@ Este jogo é um **material educativo comunitário**, não uma publicação acad�
 
 > **Atenção:** a ruína é patrimônio. O jogo convida a conhecer e proteger o monumento — nunca a escalá-lo, retirar materiais ou perturbá-lo. Visite com respeito e, de preferência, acompanhado de moradores.
 
+## Próximos passos (roadmap)
+
+Planejamento do que vem por aí. Quer ajudar com algum item? Veja
+[CONTRIBUTING.md](CONTRIBUTING.md) — toda tarefa abaixo pode virar *issue* ou
+*pull request*.
+
+### 📷 Imagens reais das ruínas nas cartas
+
+- [ ] Mapear e coletar **fotografias autorizadas** das ruínas — em diálogo com a
+      comunidade do distrito (perfil @ruinasigrejapasse), fotógrafos locais e o
+      IPAC, com termo de cessão de uso em CC BY-SA 4.0.
+- [ ] Adaptar o motor de cartas para aceitar `\includegraphics` na área de
+      ilustração, **mantendo os pictogramas TikZ como versão padrão** (mais leve
+      para impressão e livre de direitos autorais).
+- [ ] Selecionar as cartas que mais ganham com foto (fachada, torres, azulejos,
+      lápides) e produzir um PDF alternativo `cartas-fotos.pdf`.
+- [ ] ⚠️ Nunca usar como referência a imagem "Igreja Nossa Senhora da
+      Encarnação - 7.jpg" do Wikimedia Commons — é de Salinas da Margarida/BA,
+      não de Passé (ver [docs/HISTORIA.md](docs/HISTORIA.md)).
+
+### 🌐 Tradução do projeto para espanhol e inglês
+
+- [ ] **Internacionalizar o motor**: tornar configuráveis os textos fixos do
+      modelo (rótulos SABER/EFEITO, "Restauro de Passé", nomes dos naipes).
+- [ ] Criar as versões traduzidas: `cartas-es.tex`, `cartas-en.tex`,
+      `regras-es.tex` e `regras-en.tex` (cópias estruturais com conteúdo
+      traduzido).
+- [ ] Traduzir os 54 textos das cartas e o manual, com **revisão de falantes
+      nativos** de arquitetura/patrimônio.
+- [ ] Manter nomes próprios e a memória local (Passé, Mucunga, Recôncavo) com
+      notas de apoio para leitores internacionais.
+- [ ] Ampliar o CI para compilar e publicar na Release os PDFs nos três idiomas.
+
 ## Licenças
 
 - **Textos e arte das cartas, regras e documentos:** [CC BY-SA 4.0](LICENSE) — pode usar, adaptar e redistribuir, citando a origem e sob a mesma licença.
