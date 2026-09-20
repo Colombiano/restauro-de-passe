@@ -1,0 +1,342 @@
+% ============================================================
+%  Restauro de Passé — Manual de regras
+% ============================================================
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=18mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[portuguese]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usepackage{multicol}
+
+% ---------- Paleta (idêntica às cartas) ----------
+\definecolor{fachada}{HTML}{B04A2E}
+\definecolor{nave}{HTML}{2E6E8C}
+\definecolor{capela}{HTML}{6C4B99}
+\definecolor{taipa}{HTML}{7A5A33}
+\definecolor{telhado}{HTML}{3F7E58}
+\definecolor{historia}{HTML}{2E5E8C}
+\definecolor{construcao}{HTML}{4E7C31}
+\definecolor{acao}{HTML}{B03A2E}
+\definecolor{desafio}{HTML}{C4841D}
+\definecolor{ouro}{HTML}{E9B44C}
+\definecolor{tinta}{HTML}{333333}
+\definecolor{areia}{HTML}{F2EDE1}
+\definecolor{calcario}{HTML}{FAF6EC}
+
+\usepackage{helvet}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+\pagestyle{empty}
+
+% ---------- Título de seção desenhado em TikZ ----------
+\newcommand{\regrasec}[2]{%
+  \par\vspace{9pt}
+  \begin{tikzpicture}
+    \fill[#1,rounded corners=1.5mm] (0,0) rectangle (174mm,7.5mm);
+    \node[anchor=west,font=\sffamily\bfseries\large,text=white] at (3mm,3.75mm) {#2};
+  \end{tikzpicture}\par\vspace{3pt}}
+
+\newcommand{\regrasub}[1]{\par\vspace{5pt}{\sffamily\bfseries\large\color{tinta}#1}\par\vspace{1pt}}
+
+% ---------- Caixa de destaque ----------
+\newcommand{\caixa}[2]{%
+  \par\vspace{4pt}
+  \begin{tikzpicture}
+    \node[fill=#1,rounded corners=2mm,inner sep=3.5mm,text width=164mm] {\footnotesize #2};
+  \end{tikzpicture}\par\vspace{2pt}}
+
+\newcommand{\dica}[1]{\caixa{areia}{{\sffamily\bfseries\color{tinta}Dica de mestre de obras:} #1}}
+
+% ---------- Peças da igreja ----------
+\newcommand{\partebotao}[3]{% cor, inicial, nome
+  \begin{tikzpicture}[baseline=-0.5ex]
+    \node[circle,fill=#1,minimum size=5mm,inner sep=0pt,font=\sffamily\bfseries\footnotesize,text=white] {#2};
+    \node[anchor=west,font=\footnotesize\sffamily] at (3.5mm,0) {#3};
+  \end{tikzpicture}}
+
+\begin{document}
+
+% ===================== CAPA =====================
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[calcario] (current page.south west) rectangle (current page.north east);
+  \fill[areia] ([yshift=200mm]current page.south west) rectangle (current page.north east);
+  % fachada
+  \draw[color=historia,line width=2pt,line join=round]
+    ([xshift=45mm,yshift=150mm]current page.south west) -- ([xshift=75mm,yshift=150mm]current page.south west)
+    -- ([xshift=75mm,yshift=205mm]current page.south west)
+    -- ([xshift=105mm,yshift=225mm]current page.south west)
+    -- ([xshift=135mm,yshift=205mm]current page.south west)
+    -- ([xshift=135mm,yshift=150mm]current page.south west);
+  % porta em arco
+  \draw[color=historia,line width=2pt]
+    ([xshift=85mm,yshift=150mm]current page.south west) -- ([xshift=85mm,yshift=173mm]current page.south west)
+    arc[start angle=180,end angle=0,radius=10mm]
+    -- ([xshift=105mm,yshift=150mm]current page.south west);
+  % cruz
+  \draw[color=historia,line width=2pt]
+    ([xshift=105mm,yshift=225mm]current page.south west) -- ([xshift=105mm,yshift=237mm]current page.south west)
+    ([xshift=100mm,yshift=231mm]current page.south west) -- ([xshift=110mm,yshift=231mm]current page.south west);
+  % torre sineira
+  \draw[color=historia,line width=2pt,line join=round]
+    ([xshift=33mm,yshift=150mm]current page.south west) -- ([xshift=33mm,yshift=208mm]current page.south west)
+    -- ([xshift=47mm,yshift=208mm]current page.south west) -- ([xshift=47mm,yshift=150mm]current page.south west)
+    ([xshift=30mm,yshift=208mm]current page.south west) -- ([xshift=40mm,yshift=217mm]current page.south west)
+    -- ([xshift=50mm,yshift=208mm]current page.south west);
+\end{tikzpicture}
+
+\vspace*{168mm}
+\begin{center}
+  {\sffamily\bfseries\Huge\color{tinta} RESTAURO DE PASSÉ\par}
+  \vspace{4mm}
+  {\sffamily\Large\color{tinta} O jogo de cartas da Igreja de Nossa Senhora\\da Encarnação de Passé --- Candeias, Bahia\par}
+  \vspace{7mm}
+  {\sffamily\large\color{historia} Manual de regras para guardiões de 6 a 14 anos\par}
+  \vspace{12mm}
+  {\sffamily\small\color{tinta} Um jogo educativo sobre patrimônio histórico e\\técnicas construtivas do Recôncavo Baiano\par}
+\end{center}
+\newpage
+
+% ===================== 1. O QUE É =====================
+\regrasec{historia}{O que é este jogo?}
+
+\textbf{Restauro de Passé} é um jogo de cartas educativo sobre a ruína da
+\textbf{Igreja de Nossa Senhora da Encarnação de Passé}, no distrito de Passé,
+em Candeias (Bahia). Ao jogar, as crianças e jovens conhecem a história do
+monumento e as \textbf{técnicas construtivas} usadas pelos antigos mestres de
+obra --- taipa de pilão, pedra e cal, telhas coloniais --- que ainda podem
+inspirar as construções atuais do povoado.
+
+Cada carta tem um \textbf{SABER}: um fato real sobre a igreja ou sobre uma
+técnica de construção. Ler em voz alta faz todo mundo aprender, mesmo quando
+não é a sua vez.
+
+\caixa{areia}{\textbf{Para quem é:} crianças e jovens de 6 a 14 anos, em casa,
+na escola ou em oficinas comunitárias. Pode ser jogado por leigos e usado
+como material didático em cursos de arquitetura e patrimônio.}
+
+% ===================== 2. CONTEÚDO =====================
+\regrasec{tinta}{O que vem no jogo?}
+
+O baralho tem \textbf{54 cartas} em quatro naipes:
+
+\begin{itemize}
+  \item \textcolor{historia}{\textbf{16 cartas HISTÓRIA}} (azul): fatos sobre a
+  igreja, o povoado de Passé e a vida de quem ali viveu.
+  \item \textcolor{construcao}{\textbf{16 cartas CONSTRUÇÃO}} (verde): as
+  técnicas e os materiais usados para erguer a igreja --- e como reaproveitá-los hoje.
+  \item \textcolor{desafio}{\textbf{12 cartas DESAFIO}} (laranja): perguntas
+  sobre o monumento. Acertou, ficou com a carta!
+  \item \textcolor{acao}{\textbf{10 cartas AÇÃO}} (vermelho): acontecimentos e
+  brincadeiras que mudam o rumo do jogo.
+\end{itemize}
+
+Cada carta de HISTÓRIA e de CONSTRUÇÃO pertence a uma \textbf{peça da
+igreja}, marcada no canto inferior direito:
+
+\begin{center}
+\partebotao{fachada}{F}{Fachada e torre}\quad
+\partebotao{nave}{N}{Nave}\quad
+\partebotao{capela}{C}{Capela-mor}\quad
+\partebotao{taipa}{T}{Paredes}\quad
+\partebotao{telhado}{S}{Telhado}\quad
+\partebotao{ouro}{$\star$}{Curinga (DESAFIO)}
+\end{center}
+
+(dica: ``S'' vem de \emph{sobrado} --- ninguém quer que a chuva molhe o forro!)
+
+% ===================== 3. OBJETIVO =====================
+\regrasec{telhado}{O objetivo: reconstruir a igreja!}
+
+Você vence quando reúne, na sua frente, \textbf{cartas das cinco peças da
+igreja}: Fachada, Nave, Capela-mor, Paredes e Telhado.
+
+As cartas DESAFIO (curinga) podem ser usadas como \textbf{qualquer peça} que
+estiver faltando. Você decide na hora!
+
+\dica{As cartas valem pontos (o número amarelo no alto). Se duas pessoas
+reconstruírem a igreja na mesma rodada, vence quem tiver mais pontos.}
+
+% ===================== 4. PREPARO =====================
+\regrasec{fachada}{Preparando o jogo}
+
+\begin{enumerate}
+  \item \textbf{Separe} o baralho em quatro montinhos pelos naipes (cores).
+  \item \textbf{Embaralhe} todos os montinhos juntos e forme o monte de
+  compra, no centro, com o verso para cima.
+  \item Cada jogador \textbf{compra 3 cartas}. Não mostre para ninguém!
+  \item Os jogadores se organizam em círculo. O mais novo começa.
+\end{enumerate}
+
+% ===================== 5. COMO JOGAR =====================
+\regrasec{capela}{Como se joga}
+
+O jogo anda no sentido horário. Na sua vez:
+
+\begin{enumerate}
+  \item \textbf{Compre} 1 carta do monte.
+  \item \textbf{Leia em voz alta} o texto SABER da carta, para todo mundo
+  aprender junto.
+  \item \textbf{Cumpra a carta}, conforme o naipe:
+\end{enumerate}
+
+\regrasub{Cartas HISTÓRIA e CONSTRUÇÃO (azuis e verdes)}
+Guarde a carta na sua frente, junto das outras da mesma peça da igreja. Se
+você tiver as \textbf{cinco peças}, grite ``\textbf{A igreja está de pé!}'' ---
+você venceu!
+
+\regrasub{Cartas DESAFIO (laranja)}
+O jogador à sua \textbf{direita} lê a pergunta em voz alta (sem ler a
+resposta, claro!).
+\begin{itemize}
+  \item \textbf{Acertou:} fique com a carta. Ela é um curinga: use como a peça que quiser.
+  \item \textbf{Errou:} a carta vai para o fundo do monte de compra.
+\end{itemize}
+
+\regrasub{Cartas AÇÃO (vermelhas)}
+Faça o que a carta manda \emph{na hora} --- e leia o SABER delas também, que
+cada uma conta uma história.
+
+\regrasub{Fim da vez}
+Se o monte de compra acabar, reembaralhe as cartas descartadas (menos as que
+estão na frente dos jogadores) e continue jogando.
+
+% ===================== 6. AÇÕES =====================
+\regrasec{acao}{As cartas de AÇÃO}
+
+Cada carta vermelha explica o próprio efeito no texto. Em geral, elas fazem
+você:
+
+\begin{itemize}
+  \item \textbf{Pilão!} --- comprar cartas extras e distribuir SABER;
+  \item \textbf{Troca-troca} --- trocar cartas com outro jogador;
+  \item \textbf{Mestre de obras} --- ``roubar'' uma carta de peça que está
+  faltando;
+  \item \textbf{Chuva forte} --- perder a vez e proteger as paredes de taipa;
+  \item \textbf{Romaria} --- todos os jogadores ganham uma carta e leem um
+  SABER juntos.
+\end{itemize}
+
+Se uma carta mandar pegar cartas de outro jogador e ele não tiver, nada
+acontece --- sem brigas de terreiro!
+
+% ===================== 7. IDADES =====================
+\regrasec{historia}{Adaptando para cada idade}
+
+\regrasub{6 a 8 anos --- pequenos ajudantes de obra}
+\begin{itemize}
+  \item Jogue \textbf{em dupla}, criança + adulto ou dois colegas, dividindo as cartas.
+  \item Nas perguntas, leia \textbf{duas alternativas em voz alta} e deixe a
+  criança escolher.
+  \item Valide qualquer tentativa de ler o SABER: errar a palavra não importa,
+  quem importa é a vontade de contar a história.
+\end{itemize}
+
+\regrasub{9 a 11 anos --- aprendizes de mestre de obras}
+\begin{itemize}
+  \item Jogo normal, com todas as regras.
+  \item Crie um \textbf{caderno de obra}: anote um fato novo por partida.
+\end{itemize}
+
+\regrasub{12 a 14 anos --- mestres de obras}
+\begin{itemize}
+  \item Modo \textbf{pontuação}: além das cinco peças, some os pontos das
+  cartas. Precisa ter as cinco peças \textbf{e} pelo menos 20 pontos para vencer.
+  \item Ao final, cada vencedor conta \textbf{de memória} um fato da igreja
+  para a turma --- contou errado, perde 2 pontos!
+\end{itemize}
+
+% ===================== 8. COOPERATIVO =====================
+\regrasec{construcao}{Modo cooperativo --- todos contra a chuva}
+
+Para turmas e famílias que preferem construir juntos:
+
+\begin{enumerate}
+  \item Não há vencedor individual: o grupo vence \textbf{junto}.
+  \item As cartas ficam no centro, organizadas por peça da igreja.
+  \item O grupo precisa montar as \textbf{cinco peças antes do monte acabar
+  duas vezes} (na segunda passada, reembaralhe só uma vez).
+  \item Conseguiram? A igreja está de pé! Não conseguiram? A chuva venceu ---
+  recomecem, agora sabendo mais do que antes.
+\end{enumerate}
+
+% ===================== 9. GLOSSÁRIO =====================
+\regrasec{taipa}{Glossário das técnicas (para aprendizes e arquitetos)}
+
+{\footnotesize
+\begin{itemize}
+  \item \textbf{Taipa de pilão} --- parede feita de terra úmida socada dentro de
+  um molde de madeira (a taipa), levantada em camadas de uns 40\,cm. Quando a
+  camada seca, o molde sobe. É forte, térmica e usa material do próprio lugar.
+  \item \textbf{Adobe (tijolo crú)} --- tijolos de barro moldados ao sol, em vez de
+  serem queimados. Mais leve que a taipa e fácil de remendar.
+  \item \textbf{Pedra e cal} --- argamassa feita de cal (pedra calcária
+  queimada) misturada a areia e pedrisco. Cola as pedras e recebe o reboco.
+  \item \textbf{Reboco} --- camada fina de cal e areia que protege a parede da
+  chuva e deixa as superfícies lisas para pintura.
+  \item \textbf{Telha colonial} --- telhas de barro canal e capa, moldadas na
+  coxa ou em fôrma, que fazem o telhado de água correr para fora e o forro
+  respirar.
+  \item \textbf{Madeiramento} --- estrutura de madeira que segura o telhado:
+  tesouras, caibros e ripas, quase sempre de madeira local.
+  \item \textbf{Verga e contra-verga} --- peças de madeira ou pedra que
+  seguram o peso da parede acima de portas e janelas, sem deixar rachar.
+  \item \textbf{Capela-mor} --- a parte da igreja onde fica o altar, geralmente
+  mais cuidada e às vezes com pé-direito maior que a nave.
+  \item \textbf{Nave} --- o corpo principal da igreja, onde ficam as pessoas
+  durante as celebrações.
+\end{itemize}
+}
+
+% ===================== 10. OFICINAS =====================
+\regrasec{telhado}{Do jogo para a obra: oficinas práticas}
+
+O baralho é porta de entrada. Depois de jogar, leve as técnicas para a vida
+real --- é assim que a igreja ensina as gerações de hoje:
+
+\regrasub{Oficina 1 --- Minha primeira taipa}
+Material: caixa de sapato aberta nas laterais, terra úmida e areia, um pedaço
+de pau como pilão. Encha a caixa de 4 em 4 dedos e soca bem, como na carta da
+taipa. Ao final, compare com uma parede de taipa verdadeira (fotos ajudam).
+
+\regrasub{Oficina 2 --- Caça-técnica no bairro}
+Em grupos, procurem no bairro casas com taipa, adobe, reboco de cal ou telha
+colonial. Foto + carta correspondente = ponto do grupo. \textbf{Regra de
+ouro:} olhar e fotografar só com permissão do morador; nunca tocar ou danificar nada.
+
+\regrasub{Oficina 3 --- Minha casa, minha técnica}
+Desenhe a fachada da sua casa (ou da casa dos seus avós) trocando os
+materiais por técnicas da igreja: e se sua casa tivesse paredes de taipa?
+E o telhado colonial? Apresente o desenho para a turma contando por que a
+técnica funciona no clima daqui.
+
+% ===================== 11. CUIDADO =====================
+\regrasec{acao}{Cuidado! Isto é patrimônio}
+
+A Igreja de Passé é um bem de todos. A ruína \textbf{não deve ser escalada},
+não se deve retirar pedras, telhas ou argila do local, e visitas devem ser
+feitas com respeito --- de preferência acompanhadas de moradores e guias
+locais. O jogo é convite para \textbf{conhecer e proteger}, nunca para
+perturbar o monumento.
+
+% ===================== 12. CRÉDITOS =====================
+\regrasec{tinta}{Créditos e licença}
+
+\textbf{Restauro de Passé} --- jogo de cartas educativo em LaTeX/TikZ sobre a
+Igreja de Nossa Senhora da Encarnação de Passé (Candeias, Bahia).
+
+\begin{itemize}
+  \item Projeto aberto: texto e arte das cartas sob licença
+  \textbf{CC BY-SA 4.0}; código-fonte LaTeX sob \textbf{MIT}.
+  \item Fontes históricas consultadas estão em \texttt{docs/FONTES.md}.
+  \item Impressão: papel A4, 100\,\% de escala (sem ``ajustar à página'').
+  Cartas de 63\,$\times$\,88\,mm.
+  \item Contribuições (novas cartas, correções, traduções) são bem-vindas ---
+  veja \texttt{CONTRIBUTING.md}.
+\end{itemize}
+
+\end{document}

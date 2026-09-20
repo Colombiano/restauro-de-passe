@@ -1,0 +1,375 @@
+% ============================================================
+%  Restauro de Passé — Motor de cartas (TikZ)
+%  Estilo inspirado no exemplo "Creating playing cards using TikZ"
+%  (https://tex.stackexchange.com/questions/47924), recriado do zero.
+% ============================================================
+\documentclass[10pt]{article}
+
+\usepackage[a4paper,margin=8mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[portuguese]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{calc,babel}
+\usepackage{helvet}
+\usepackage{multicol}
+
+% ---------- Paleta (tons de terra do Recôncavo) ----------
+\definecolor{fachada}{HTML}{B04A2E}   % tijoco queimado
+\definecolor{nave}{HTML}{2E6E8C}      % azul da baía
+\definecolor{capela}{HTML}{6C4B99}    % roxo litúrgico
+\definecolor{taipa}{HTML}{7A5A33}     % barro / taipa
+\definecolor{telhado}{HTML}{3F7E58}   % verde de massa + cobre
+\definecolor{historia}{HTML}{2E5E8C}  % naipe História
+\definecolor{construcao}{HTML}{4E7C31}% naipe Construção
+\definecolor{acao}{HTML}{B03A2E}      % naipe Ação
+\definecolor{desafio}{HTML}{C4841D}   % naipe Desafio
+\definecolor{ouro}{HTML}{E9B44C}      % caixa de valor
+\definecolor{tinta}{HTML}{333333}     % cinza do título
+\definecolor{areia}{HTML}{F2EDE1}     % fundo da ilustração
+\definecolor{calcario}{HTML}{FAF6EC}  % fundo de texto
+
+% ---------- Medidas ----------
+\newlength{\larguracarta}\setlength{\larguracarta}{63mm}
+\newlength{\alturacarta}\setlength{\alturacarta}{88mm}
+
+% ---------- Pictogramas (estilo xilogravura de linha) ----------
+% Todos desenhados numa caixa (0,0) -- (1,1), traço escuro na cor #1.
+\newcommand{\pictograma}[1]{#1}
+
+% Igreja de fachada com porta e janela em arco
+\newcommand{\icoIgreja}[1]{%
+  \draw[color=#1,line width=1.1pt,line join=round]
+    (0.18,0.12) -- (0.18,0.62) -- (0.5,0.82) -- (0.82,0.62) -- (0.82,0.12) -- cycle
+    (0.40,0.12) -- (0.40,0.38) arc[start angle=180,end angle=0,radius=0.1] -- (0.60,0.12)
+    (0.50,0.50) circle[radius=0.055]
+    (0.5,0.82) -- (0.5,0.92);
+  \draw[color=#1,line width=1.1pt] (0.455,0.87) -- (0.545,0.87);}
+
+% Torre sineira
+\newcommand{\icoTorre}[1]{%
+  \draw[color=#1,line width=1.1pt,line join=round]
+    (0.32,0.10) -- (0.32,0.68) -- (0.68,0.68) -- (0.68,0.10)
+    (0.26,0.68) -- (0.5,0.86) -- (0.74,0.68)
+    (0.44,0.55) -- (0.44,0.63) arc[start angle=180,end angle=0,radius=0.06] -- (0.56,0.55) -- cycle
+    (0.5,0.86) -- (0.5,0.95);
+  \draw[color=#1,line width=1.1pt] (0.462,0.905) -- (0.538,0.905);}
+
+% Molde de taipa de pilão com pilão
+\newcommand{\icoTaipa}[1]{%
+  \draw[color=#1,line width=1.1pt,line join=round]
+    (0.16,0.14) rectangle (0.84,0.42)
+    (0.16,0.28) -- (0.84,0.28)
+    (0.50,0.90) -- (0.50,0.44)
+    (0.41,0.90) -- (0.59,0.90) -- (0.59,0.80) -- (0.41,0.80) -- cycle
+    (0.20,0.10) -- (0.80,0.10);}
+
+% Pilão de taipa caindo (tração de corrente)
+\newcommand{\icoPilao}[1]{%
+  \draw[color=#1,line width=1.1pt,line join=round]
+    (0.20,0.90) -- (0.20,0.18) -- (0.80,0.18) -- (0.80,0.90)
+    (0.34,0.90) -- (0.34,0.50) -- (0.66,0.50) -- (0.66,0.90)
+    (0.40,0.56) -- (0.60,0.56) (0.40,0.62) -- (0.60,0.62) (0.40,0.68) -- (0.60,0.68);
+  \draw[color=#1,line width=1.1pt] (0.20,0.90) -- (0.14,0.97) (0.80,0.90) -- (0.86,0.97);}
+
+% Telha colonial
+\newcommand{\icoTelha}[1]{%
+  \draw[color=#1,line width=1.1pt,line join=round]
+    (0.14,0.30) .. controls (0.30,0.62) and (0.42,0.66) .. (0.5,0.66)
+    (0.86,0.30) .. controls (0.70,0.62) and (0.58,0.66) .. (0.5,0.66)
+    (0.14,0.30) -- (0.24,0.30) (0.86,0.30) -- (0.76,0.30)
+    (0.5,0.66) -- (0.5,0.76);
+  \draw[color=#1,line width=1.1pt] (0.20,0.16) -- (0.80,0.16) (0.24,0.22) -- (0.76,0.22);}
+
+% Barco / canoa de pescadores
+\newcommand{\icoBarco}[1]{%
+  \draw[color=#1,line width=1.1pt,line join=round]
+    (0.14,0.34) -- (0.20,0.18) -- (0.80,0.18) -- (0.86,0.34) -- cycle
+    (0.50,0.34) -- (0.50,0.72) -- (0.76,0.42) -- (0.50,0.42)
+    (0.10,0.08) .. controls (0.30,0.02) and (0.40,0.12) .. (0.50,0.08)
+    .. controls (0.60,0.04) and (0.72,0.12) .. (0.90,0.08);}
+
+% Peixe
+\newcommand{\icoPeixe}[1]{%
+  \draw[color=#1,line width=1.1pt,line join=round]
+    (0.20,0.48) .. controls (0.38,0.72) and (0.62,0.72) .. (0.72,0.48)
+    .. controls (0.62,0.24) and (0.38,0.24) .. (0.20,0.48)
+    (0.72,0.48) -- (0.88,0.62) -- (0.88,0.34) -- cycle;
+  \draw[color=#1,line width=1.1pt,fill=#1] (0.30,0.52) circle[radius=0.022];}
+
+% Mão / ação (martelo levantado)
+\newcommand{\icoAcao}[1]{%
+  \draw[color=#1,line width=1.1pt,line join=round]
+    (0.30,0.14) -- (0.30,0.52) arc[start angle=180,end angle=0,radius=0.06] --
+    (0.42,0.52) arc[start angle=180,end angle=0,radius=0.06] --
+    (0.54,0.52) arc[start angle=180,end angle=0,radius=0.06] --
+    (0.66,0.52) -- (0.66,0.30)
+    (0.30,0.52) -- (0.24,0.66) -- (0.36,0.78) -- (0.60,0.78) -- (0.72,0.66) -- (0.66,0.52)
+    (0.60,0.78) -- (0.66,0.88);
+  \draw[color=#1,line width=1.1pt,fill=#1] (0.62,0.88) circle[radius=0.05];}
+
+% Interrogação em círculo
+\newcommand{\icoDesafio}[1]{%
+  \draw[color=#1,line width=1.1pt] (0.5,0.5) circle[radius=0.34];
+  \node[color=#1,font=\sffamily\bfseries\Large] at (0.5,0.47) {?};}
+
+% Sol do Recôncavo
+\newcommand{\icoSol}[1]{%
+  \draw[color=#1,line width=1.1pt] (0.5,0.52) circle[radius=0.16];
+  \foreach \a in {0,45,...,315}{%
+    \draw[color=#1,line width=1.1pt] ($(0.5,0.52)+(\a:0.24)$) -- ($(0.5,0.52)+(\a:0.34)$);}
+  \draw[color=#1,line width=1.1pt] (0.22,0.16) -- (0.78,0.16);}
+
+% Pergaminho / registro histórico
+\newcommand{\icoPergaminho}[1]{%
+  \draw[color=#1,line width=1.1pt,line join=round]
+    (0.26,0.18) -- (0.26,0.82) (0.74,0.18) -- (0.74,0.82)
+    (0.26,0.82) .. controls (0.36,0.72) and (0.38,0.90) .. (0.5,0.80)
+    .. controls (0.62,0.90) and (0.64,0.72) .. (0.74,0.82)
+    (0.34,0.64) -- (0.66,0.64) (0.34,0.52) -- (0.66,0.52) (0.34,0.40) -- (0.58,0.40);}
+
+% Arco / pedra de cantaria
+\newcommand{\icoArco}[1]{%
+  \draw[color=#1,line width=1.1pt,line join=round]
+    (0.26,0.14) -- (0.26,0.48) arc[start angle=180,end angle=0,radius=0.24] -- (0.74,0.14)
+    (0.36,0.14) -- (0.36,0.46) arc[start angle=180,end angle=0,radius=0.14] -- (0.64,0.14)
+    (0.14,0.08) -- (0.86,0.08);}
+
+% Casas do povoado (moradores)
+\newcommand{\icoCasas}[1]{%
+  \draw[color=#1,line width=1.1pt,line join=round]
+    (0.14,0.14) -- (0.14,0.42) -- (0.32,0.54) -- (0.50,0.42) -- (0.50,0.14)
+    (0.54,0.14) -- (0.54,0.50) -- (0.72,0.62) -- (0.86,0.50) -- (0.86,0.14)
+    (0.23,0.14) -- (0.23,0.30) -- (0.32,0.30) -- (0.32,0.14)
+    (0.63,0.14) -- (0.63,0.34) -- (0.73,0.34) -- (0.73,0.14);}
+
+% Galeria de arcos (colunas e arcos)
+\newcommand{\icoGaleria}[1]{%
+  \draw[color=#1,line width=1.1pt,line join=round]
+    (0.16,0.14) -- (0.16,0.86) (0.38,0.14) -- (0.38,0.86)
+    (0.62,0.14) -- (0.62,0.86) (0.84,0.14) -- (0.84,0.86)
+    (0.16,0.14) -- (0.84,0.14) (0.16,0.86) -- (0.84,0.86)
+    (0.16,0.60) arc[start angle=180,end angle=0,radius=0.11]
+    (0.38,0.60) arc[start angle=180,end angle=0,radius=0.12]
+    (0.62,0.60) arc[start angle=180,end angle=0,radius=0.11]
+    (0.16,0.74) -- (0.84,0.74);}
+
+% Lupa (investigação)
+\newcommand{\icoLupa}[1]{%
+  \draw[color=#1,line width=1.1pt] (0.28,0.60) circle[radius=0.20]
+    (0.42,0.46) -- (0.70,0.18);
+  \draw[color=#1,line width=1.1pt] (0.21,0.67) arc[start angle=180,end angle=270,radius=0.07];}
+
+% Cana-de-açúcar
+\newcommand{\icoCana}[1]{%
+  \draw[color=#1,line width=1.1pt,line join=round]
+    (0.50,0.10) -- (0.50,0.88)
+    (0.50,0.88) -- (0.80,0.68) -- (0.63,0.58)
+    (0.50,0.88) -- (0.20,0.68) -- (0.37,0.58)
+    (0.42,0.40) -- (0.60,0.52) (0.60,0.28) -- (0.42,0.42);}
+
+% Lápide com cruz
+\newcommand{\icoLapide}[1]{%
+  \draw[color=#1,line width=1.1pt,line join=round]
+    (0.28,0.14) -- (0.28,0.62) arc[start angle=180,end angle=0,radius=0.22] -- (0.72,0.14) -- cycle
+    (0.50,0.50) -- (0.50,0.72) (0.40,0.62) -- (0.60,0.62);}
+
+% Cruzeiro de pedra
+\newcommand{\icoCruz}[1]{%
+  \draw[color=#1,line width=1.1pt,line join=round]
+    (0.50,0.90) -- (0.50,0.24) (0.34,0.74) -- (0.66,0.74)
+    (0.30,0.10) -- (0.70,0.10) (0.36,0.17) -- (0.64,0.17);}
+
+% Azulejo tipo tapete
+\newcommand{\icoAzulejo}[1]{%
+  \draw[color=#1,line width=1.1pt]
+    (0.16,0.16) rectangle (0.84,0.84)
+    (0.16,0.16) -- (0.50,0.50) (0.50,0.84) -- (0.84,0.50)
+    (0.50,0.16) -- (0.16,0.50) (0.84,0.84) -- (0.50,0.50)
+    (0.16,0.50) -- (0.50,0.84) (0.50,0.50) -- (0.84,0.16);}
+
+% Lajotas de barro (piso)
+\newcommand{\icoLajota}[1]{%
+  \draw[color=#1,line width=1.1pt]
+    (0.16,0.22) rectangle (0.84,0.78)
+    (0.16,0.41) -- (0.84,0.41) (0.16,0.60) -- (0.84,0.60)
+    (0.44,0.22) -- (0.44,0.41) (0.64,0.41) -- (0.64,0.60) (0.44,0.60) -- (0.44,0.78);}
+
+% Pia de cantaria (taça em pedestal)
+\newcommand{\icoPia}[1]{%
+  \draw[color=#1,line width=1.1pt,line join=round]
+    (0.34,0.74) -- (0.66,0.74)
+    (0.66,0.74) arc[start angle=0,end angle=-180,radius=0.16]
+    (0.50,0.58) -- (0.50,0.34)
+    (0.38,0.34) -- (0.62,0.34) -- (0.62,0.24) -- (0.38,0.24) -- cycle
+    (0.40,0.79) -- (0.60,0.79);}
+
+% Porta com cercadura de pedra
+\newcommand{\icoPorta}[1]{%
+  \draw[color=#1,line width=1.1pt,line join=round]
+    (0.24,0.14) rectangle (0.76,0.86)
+    (0.32,0.14) -- (0.32,0.56) arc[start angle=180,end angle=0,radius=0.18] -- (0.68,0.14) -- cycle;}
+
+% Tijolos de adobe secando ao sol
+\newcommand{\icoTijolo}[1]{%
+  \draw[color=#1,line width=1.1pt,line join=round]
+    (0.18,0.20) rectangle (0.48,0.42)
+    (0.52,0.20) rectangle (0.82,0.42)
+    (0.35,0.46) rectangle (0.65,0.68)
+    (0.14,0.78) -- (0.24,0.78) (0.19,0.72) -- (0.19,0.84)
+    (0.76,0.78) -- (0.86,0.78) (0.81,0.72) -- (0.81,0.84);}
+
+% Reboco (parede recebendo espátula)
+\newcommand{\icoReboco}[1]{%
+  \draw[color=#1,line width=1.1pt,line join=round]
+    (0.24,0.16) rectangle (0.76,0.64)
+    (0.24,0.30) -- (0.76,0.30) (0.24,0.46) -- (0.76,0.46)
+    (0.45,0.64) -- (0.63,0.82)
+    (0.63,0.82) -- (0.79,0.66) -- (0.69,0.56) -- (0.53,0.72) -- cycle;}
+
+% Forno de cal com fumaça
+\newcommand{\icoCal}[1]{%
+  \draw[color=#1,line width=1.1pt,line join=round]
+    (0.20,0.16) -- (0.50,0.70) -- (0.80,0.16) -- cycle
+    (0.50,0.70) .. controls (0.42,0.80) and (0.58,0.84) .. (0.50,0.94);}
+
+% Gota d'água
+\newcommand{\icoGota}[1]{%
+  \draw[color=#1,line width=1.1pt,line join=round]
+    (0.50,0.88) .. controls (0.36,0.64) and (0.28,0.54) .. (0.28,0.42)
+    arc[start angle=180,end angle=360,radius=0.22]
+    .. controls (0.72,0.54) and (0.64,0.64) .. (0.50,0.88) -- cycle
+    (0.18,0.12) -- (0.82,0.12);}
+
+% Setas de troca
+\newcommand{\icoTroca}[1]{%
+  \draw[color=#1,line width=1.1pt,line cap=round]
+    (0.80,0.50) arc[start angle=0,end angle=150,radius=0.28]
+    (0.20,0.50) arc[start angle=180,end angle=330,radius=0.28];
+  \draw[color=#1,line width=1.1pt,line join=round]
+    (0.66,0.76) -- (0.80,0.50) -- (0.87,0.79)
+    (0.34,0.24) -- (0.20,0.50) -- (0.13,0.21);}
+
+% Vento sul (nuvem e rajadas)
+\newcommand{\icoVento}[1]{%
+  \draw[color=#1,line width=1.1pt,line join=round]
+    (0.26,0.64) .. controls (0.26,0.76) and (0.40,0.78) .. (0.46,0.70)
+    .. controls (0.50,0.80) and (0.68,0.80) .. (0.70,0.68)
+    .. controls (0.82,0.68) and (0.84,0.56) .. (0.74,0.52)
+    -- (0.32,0.52) .. controls (0.24,0.52) and (0.22,0.58) .. (0.26,0.64) -- cycle;
+  \draw[color=#1,line width=1.1pt,line cap=round]
+    (0.20,0.36) -- (0.68,0.36) (0.30,0.24) -- (0.80,0.24);}
+
+% Sino
+\newcommand{\icoSino}[1]{%
+  \draw[color=#1,line width=1.1pt,line join=round]
+    (0.50,0.88) -- (0.50,0.80)
+    (0.36,0.76) -- (0.64,0.76)
+    (0.36,0.76) .. controls (0.36,0.56) and (0.40,0.44) .. (0.30,0.30)
+    (0.64,0.76) .. controls (0.64,0.56) and (0.60,0.44) .. (0.70,0.30)
+    (0.30,0.30) -- (0.70,0.30);
+  \draw[color=#1,line width=1.1pt,fill=#1] (0.50,0.24) circle[radius=0.04];}
+
+% Tábuas de forro
+\newcommand{\icoForro}[1]{%
+  \draw[color=#1,line width=1.1pt,line join=round]
+    (0.18,0.20) -- (0.82,0.20) (0.18,0.40) -- (0.82,0.40)
+    (0.18,0.60) -- (0.82,0.60) (0.18,0.80) -- (0.82,0.80)
+    (0.34,0.20) -- (0.34,0.40) (0.60,0.40) -- (0.60,0.60) (0.42,0.60) -- (0.42,0.80);}
+
+% ============================================================
+%  \carta — desenha UMA carta completa
+%  #1 cor do naipe      #2 nome do naipe (minúsculo, p/ a banda)
+%  #3 pictograma naipe  #4 título
+%  #5 valor (nº)        #6 ilustração (código TikZ na caixa 0..1)
+%  #7 citação           #8 saber (fato)
+%  \cartaB: #1 efeito  #2 código  #3 cor da peça  #4 inicial da peça (vazio = sem selo)
+% ============================================================
+\newcommand{\carta}[8]{%
+  \begingroup
+  \def\naipecor{#1}\def\naipenome{#2}\def\naipeicon{#3}%
+  \def\cartatitulo{#4}\def\cartavalor{#5}%
+  \def\cartaarte{#6}\def\cartacitacao{#7}%
+  \def\cartasaber{#8}%
+  \cartaB
+}
+\def\vazio{}
+\newcommand{\cartaB}[4]{%
+  \def\cartaeff{#1}\def\cartacodigo{#2}\def\partecor{#3}\def\parteinicial{#4}%
+  \begin{tikzpicture}[x=1mm,y=1mm]
+    % --- corpo ---
+    \draw[rounded corners=2.5mm,fill=white,draw=black!45,line width=0.4pt]
+      (0,0) rectangle (\larguracarta,\alturacarta);
+    % --- banda lateral esquerda ---
+    \fill[\naipecor,rounded corners=2.5mm]
+      (0,0) rectangle (7.5mm,\alturacarta);
+    \fill[\naipecor]
+      (3.75mm,0) rectangle (7.5mm,\alturacarta);
+    \node[rotate=90,font=\sffamily\bfseries\footnotesize,text=white]
+      at (3.75mm,{0.5\alturacarta}) {\MakeUppercase{\naipenome}};
+    % --- faixa superior ---
+    \fill[\naipecor,rounded corners=1.2mm] (9.5mm,79.5mm) rectangle (17.5mm,87.5mm);
+    \begin{scope}[shift={(10.1mm,80.1mm)},x=7.4mm,y=7.4mm]
+      \naipeicon
+    \end{scope}
+    \fill[tinta,rounded corners=1.2mm] (19mm,79.5mm) rectangle (52.5mm,87.5mm);
+    \node[font=\sffamily\bfseries\footnotesize,text=white,text centered,text width=32mm]
+      at (35.75mm,83.5mm) {\cartatitulo};
+    \fill[ouro,rounded corners=1.2mm] (54mm,79.5mm) rectangle (62mm,87.5mm);
+    \node[font=\sffamily\bfseries\large,text=tinta] at (58mm,83.5mm) {\cartavalor};
+    % --- ilustração ---
+    \fill[areia,rounded corners=1.5mm] (9.5mm,48.5mm) rectangle (62mm,78mm);
+    \begin{scope}[shift={(11.5mm,49.7mm)},x=48.5mm,y=26.6mm]
+      \cartaarte
+    \end{scope}
+    % --- citação ---
+    \node[anchor=north west,font=\itshape\scriptsize,text=tinta,text width=50mm,inner sep=0pt]
+      at (9.5mm,46.8mm) {``\cartacitacao''};
+    \fill[tinta] (9.5mm,39.8mm) rectangle (62mm,40.6mm);
+    % --- saber (label em linha com o texto) ---
+    \node[anchor=north west,font=\fontsize{6.5}{7.8}\selectfont,text=tinta,text width=51mm,inner sep=0pt]
+      at (9.5mm,38.2mm) {{\color{\naipecor}\sffamily\bfseries SABER\ \ }\cartasaber};
+    % --- efeito (label em linha com o texto) ---
+    \node[anchor=north west,font=\fontsize{6.5}{7.8}\selectfont,text=tinta,text width=51mm,inner sep=0pt]
+      at (9.5mm,22.6mm) {{\color{black!60}\sffamily\bfseries EFEITO\ \ }\cartaeff};
+    % --- rodapé ---
+    \node[anchor=south west,font=\tiny\sffamily,text=black!55,inner sep=0pt]
+      at (9.5mm,2mm) {Restauro de Passé};
+    \ifx\parteinicial\vazio
+      % cartas de ação: sem selo de peça
+    \else
+      \node[anchor=south east,circle,fill=\partecor,minimum size=4.2mm,inner sep=0pt,
+            font=\sffamily\bfseries\scriptsize,text=white]
+        at (62mm,4.2mm) {\parteinicial};
+    \fi
+    \node[anchor=north east,font=\tiny\sffamily\bfseries,text=black!55,inner sep=0pt]
+      at (62mm,11mm) {\cartacodigo};
+  \end{tikzpicture}%
+  \endgroup
+}
+
+% ---------- Verso da carta ----------
+\newcommand{\verso}{%
+  \begin{tikzpicture}[x=1mm,y=1mm]
+    \draw[rounded corners=2.5mm,fill=historia,draw=black!45,line width=0.4pt]
+      (0,0) rectangle (\larguracarta,\alturacarta);
+    \draw[rounded corners=2mm,fill=white,draw=white] (4mm,4mm) rectangle (59mm,84mm);
+    \begin{scope}[shift={(6mm,14mm)},x=51mm,y=60mm]
+      \icoIgreja{historia}
+    \end{scope}
+    \node[font=\sffamily\bfseries\small,text=historia,text centered,text width=50mm]
+      at (31.5mm,8mm) {RESTAURO DE PASSÉ};
+  \end{tikzpicture}%
+}
+
+% ---------- Helpers de composição ----------
+% Uma linha de 3 cartas (use \par ou linha em branco entre linhas de cartas)
+\newcommand{\linhacartas}[3]{#1\hspace{2.2mm}#2\hspace{2.2mm}#3\par}
+% Uma linha de 3 versos
+\newcommand{\linhaversos}{\linhacartas{\verso}{\verso}{\verso}}
+
+\setlength{\parindent}{0pt}
+\pagestyle{empty}

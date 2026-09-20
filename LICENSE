@@ -1,0 +1,35 @@
+# Licença do código-fonte: MIT
+
+Copyright (c) 2026 Restauro de Passé (contribuidores)
+
+Permissão é concedida, gratuitamente, a qualquer pessoa que obtenha uma cópia
+deste software e arquivos de documentação associados (o "Software"), para usar o
+Software sem restrição, incluindo sem limitação os direitos de usar, copiar,
+modificar, mesclar, publicar, distribuir, sublicenciar e/ou vender cópias do
+Software, e de permitir que pessoas a quem o Software é fornecido o façam, sob as
+seguintes condições:
+
+O aviso de copyright acima e este aviso de permissão devem ser incluídos em todas
+as cópias ou partes substanciais do Software.
+
+O SOFTWARE É FORNECIDO "NO ESTADO EM QUE SE ENCONTRA", SEM GARANTIA DE QUALQUER
+TIPO, EXPRESSA OU IMPLÍCITA, INCLUINDO, MAS NÃO SE LIMITANDO ÀS GARANTIAS DE
+COMERCIALIZAÇÃO, ADEQUAÇÃO A UM FIM ESPECÍFICO E NÃO VIOLAÇÃO. EM NENHUMA
+HIPÓTESE OS AUTORES OU TITULARES DO COPYRIGHT SERÃO RESPONSÁVEIS POR QUALQUER
+RECLAMAÇÃO, DANO OU OUTRA RESPONSABILIDADE, EM AÇÃO DE CONTRATO, DELITO OU DE
+OUTRA FORMA, DECORRENTE DE, FORA DE OU EM CONEXÃO COM O SOFTWARE OU O USO OU
+OUTRAS NEGOCIAÇÕES NO SOFTWARE.
+
+---
+
+## Conteúdo (textos e arte das cartas, regras e documentos)
+
+O conteúdo criativo deste projeto — textos das cartas, ilustrações (pictogramas
+TikZ), manual de regras e documentação — está licenciado sob **Creative Commons
+Atribuição-CompartilhaIgual 4.0 Internacional (CC BY-SA 4.0)**.
+
+Resumo (não substitui a licença): você pode compartilhar e adaptar o material
+para qualquer fim, inclusive comercialmente, **desde que** dê o devido crédito,
+indique se fez alterações e distribua suas contribuições sob a **mesma licença**.
+
+Texto completo: https://creativecommons.org/licenses/by-sa/4.0/deed.pt_BR

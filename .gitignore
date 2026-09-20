@@ -1,0 +1,16 @@
+# Arquivos auxiliares do LaTeX
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+
+# PDFs gerados (disponíveis nas Releases do GitHub)
+cartas/cartas.pdf
+regras/regras.pdf
+
+# Sistema
+.DS_Store
+Thumbs.db
