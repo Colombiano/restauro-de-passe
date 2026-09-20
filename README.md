@@ -1,5 +1,12 @@
 # Restauro de Passé ♦
 
+[![CI: PDFs compilando](https://github.com/Colombiano/restauro-de-passe/actions/workflows/build.yml/badge.svg)](https://github.com/Colombiano/restauro-de-passe/actions/workflows/build.yml)
+[![Última release](https://img.shields.io/github/v/release/Colombiano/restauro-de-passe?logo=github&label=release)](https://github.com/Colombiano/restauro-de-passe/releases)
+[![Licença do código: MIT](https://img.shields.io/badge/c%C3%B3digo-MIT-green)](LICENSE)
+[![Licença do conteúdo: CC BY-SA 4.0](https://img.shields.io/badge/conte%C3%BAdo-CC%20BY--SA%204.0-orange)](LICENSE)
+[![Feito com LaTeX/TikZ](https://img.shields.io/badge/feito%20com-LaTeX%2FTikZ-008080?logo=latex&logoColor=white)](https://www.latex-project.org/)
+[![PRs bem-vindos](https://img.shields.io/badge/PRs-bem--vindos-brightgreen)](CONTRIBUTING.md)
+
 **O jogo de cartas da Igreja de Nossa Senhora da Encarnação de Passé** — distrito de Passé, Candeias, Bahia, Brasil.
 
 Um baralho educativo, de código aberto e escrito em **LaTeX/TikZ**, para crianças e jovens de **6 a 14 anos** conhecerem a ruína histórica da igrejinha de Passé e as **técnicas construtivas** do Recôncavo Baiano — taipa de pilão, adobe, pedra e cal, telha colonial — que ainda podem inspirar as construções atuais do povoado.
